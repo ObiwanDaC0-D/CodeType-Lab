@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+test('inline JavaScript parses',()=>{assert.ok(script);new vm.Script(script,{filename:'index.html'});});
+test('unique IDs and valid local references',()=>{const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);assert.equal(new Set(ids).size,ids.length,'duplicate element IDs');const refs=[...script.matchAll(/\$\('([^']+)'\)/g)].map(x=>x[1]);for(const id of refs)assert.ok(ids.includes(id),'missing element: '+id);});
+test('typing input is labelled and status is announced',()=>{assert.match(html,/<label for="typing"/);assert.match(html,/id="notice"[^>]*role="status"/);assert.match(html,/prefers-reduced-motion/);});
+test('data normalization accepts legacy and damaged storage',()=>{const start=script.indexOf('const emptyData='),end=script.indexOf('let saved;',start);assert.ok(start>=0&&end>start);const context=vm.createContext({});const evaluate=x=>vm.runInContext(script.slice(start,end)+';JSON.stringify(normalizeData('+x+'))',context);const legacy=JSON.parse(evaluate('{"history":[{"wpm":42}],"settings":{"repetitions":999},"mistakes":{"a":2}}'));assert.equal(legacy.history[0].wpm,42);assert.equal(legacy.settings.repetitions,3);assert.equal(legacy.mistakes.a,2);const broken=JSON.parse(evaluate('null'));assert.deepEqual(broken.trials,[]);assert.deepEqual(broken.experiments,{A:{},B:{}});});
+test('backup and restore are present',()=>{assert.match(html,/id="backupData"/);assert.match(html,/id="restoreData"/);assert.match(script,/schemaVersion:9/);assert.match(script,/normalizeData\(parsed\.data\)/);});
