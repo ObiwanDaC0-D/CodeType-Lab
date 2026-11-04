@@ -2,7 +2,7 @@
 
 A free, standalone typing trainer built for programmers. Practice real code, punctuation, operators, and indentation in a distraction-free editor-inspired interface.
 
-## Version 2.0\n\n- Personalized coaching dashboard with weakest-character and coding-pattern indicators\n- Approximate per-character input intervals (excluding pastes and bulk edits)\n- Adaptive exercises with balanced, accuracy-first, or speed-first emphasis\n- Focused coding-pattern drills for brackets, operators, strings, functions, and indentation\n- All measurements remain local in your browser\n\n## Features
+## Version 3.0\n\n- Five-stage programming curriculum with 95%-accuracy progression\n- Recent-session WPM and accuracy visualization\n- Daily training goals and progress tracking\n- Personalized suggested practice sequence\n- Existing local data remains available in the browser\n\n## Version 2.0\n\n- Personalized coaching dashboard with weakest-character and coding-pattern indicators\n- Approximate per-character input intervals (excluding pastes and bulk edits)\n- Adaptive exercises with balanced, accuracy-first, or speed-first emphasis\n- Focused coding-pattern drills for brackets, operators, strings, functions, and indentation\n- All measurements remain local in your browser\n\n## Features
 
 - Practice JavaScript, Python, TypeScript, HTML, CSS, SQL, and JSON
 - Real-code exercises, symbol drills, and adaptive practice
